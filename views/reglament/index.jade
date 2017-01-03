@@ -1,0 +1,194 @@
+-var title = 'Загальний регламент'
+extends ../layouts/layout
+
+block neck
+  link(rel="stylesheet", href="/vendors/styles/balloon.css")
+
+block addnav
+  li(class=(semester === 1 ? 'active' : ''))
+    a(href="/reglaments/" + year + "/" + 1) 1 Семестр
+  li(class=(semester === 1 ? '' : 'active'))
+    a(href="/reglaments/" + year + "/" + 2) 2 Семестр
+  li
+    a(href='/reglaments/savetable/' + year + '/' + semester) Зберегти як файл
+
+block content
+  section(class="full-reglament")
+    header.center
+      h5 МІНІСТЕРСТВО ОСВІТИ ТА НАУКИ УКРАЇНИ 
+      h5 ДНІПРОПЕТРОВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ
+      h5 імені Олеся Гончара
+      h5 _______________
+      //hr
+      h1 Регламент
+      h5 роботи науково-педагогічного складу кафедри комп'ютерних технологій
+      h5 на 
+        span.bold= semester
+        |  семестр 
+        span.bold= (year + ' | ' + (year + 1)) 
+        |  навчального року
+    table.total-reg-table.pure-table.pure-table-bordered.center(id="reglament-table")
+      thead
+        tr.center
+          td(rowspan=4)= "Призвіще, ім'я, по-батькові, посада та телефон"
+          td(colspan=24)= "ДНІ ТИЖДНЯ"
+          td(rowspan=4)= "Робочий час"
+        tr.center
+          -for (var i = 0; i < weekDays.length; i++)
+            td(colspan=4)= weekDays[i]
+        tr
+          - for (var i = 0; i < 6; i++)
+            td.lesson-index= "№"
+            td.lesson-time= "Час"
+            td= "Вид Роботи"
+            td= "Місце Роботи"
+      tbody
+        for teacherData in data
+            -var teacher = teacherData.teacher
+            -var teacherId = teacher.getId()
+            -var reglaments = teacherData.reglaments
+            each reglament, regIndex in reglaments
+              -var reglamentInfo = reglament.info
+              -var reglamentId = reglamentInfo.id
+              -var reglamentRate = reglamentInfo.rate
+                tr(id=teacherId, type="reglament")
+                  td.teacher-info(rowspan=2, reglament=reglamentId)= (teacher.getInfo() + '\nСтавка: ')
+                    span.rate= reglamentRate
+                    if (user.isTeacher(teacherId) || user.isAdmin())
+                      i.icon-remove.remove-reglament
+                  -var days = reglament.days
+                  each day, dayIndex in days
+                    -var dayInfo = day.info
+                    -var lessons = day.lessons
+                    td(colspan=4).table-container
+                      table.inner-table.pure-table.pure-table-bordered.center
+                        each lesson, lessonIndex in lessons
+                          if (lesson.length === 0)
+                            tr(teacher=teacherId, reglament=reglamentId, day=dayIndex, order=lessonIndex, numerator=-1, status='vacant').max-height.activity
+                              td.lesson-index= (lessonIndex + 1)
+                              td.lesson-time=(timeOrders[lessonIndex])
+                              td
+                              td
+                                div
+                                include reglament_pieces/add_button
+                          else if (lesson.length == 1)
+                            each l in lesson
+                              if (l.numerator == -1)
+                                tr(teacher=teacherId, reglament=reglamentId, discipline=l.discipline, groups=l.groups, numerator=-1, order=l.order, timestart=l.timeStart, timeend=l.timeEnd, type=l.type, place=l.place, lesson=l.id, time=l.time, day=l.day, status='busy').max-height.activity.weekly
+                                  td.lesson-index= (lessonIndex + 1)
+                                  td.lesson-time= (extendedOrders[lessonIndex][l.timeStart] + ' ' + extendedOrders[lessonIndex][l.timeEnd])
+                                  td.activity-info(class=(l.isBlocked ? 'blocked' : ''), data-balloon=l.discipline, data-balloon-pos="right", data-balloon-length="fit")
+                                    include reglament_pieces/lesson_info_block
+                                  td
+                                    div= l.place
+                                    include reglament_pieces/edit_remove_buttons
+                              else if (l.numerator === 0)
+                                tr(teacher=teacherId, reglament=reglamentId, discipline=l.discipline, groups=l.groups, numerator=0, order=l.order, timestart=l.timeStart, timeend=l.timeEnd, type=l.type, place=l.place, lesson=l.id, time=l.time, day=l.day, status='busy').half-height.activity.numerator
+                                  td.lesson-index(rowspan=2)= (lessonIndex + 1)
+                                  td.lesson-time= (extendedOrders[lessonIndex][l.timeStart] + ' ' + extendedOrders[lessonIndex][l.timeEnd])
+                                  td.activity-info(class=(l.isBlocked ? 'blocked' : ''), data-balloon=l.discipline, data-balloon-pos="right", data-balloon-length="fit")
+                                    include reglament_pieces/lesson_info_block
+                                  td
+                                    div(field="place")= l.place
+                                    include reglament_pieces/edit_remove_buttons
+                                tr(teacher=teacherId, reglament=reglamentId, day=dayIndex, order=lessonIndex, numerator=1, status='vacant').half-height.denominator.vacant.activity
+                                  td.lesson-time= (timeOrders[lessonIndex])
+                                  td(colspan=2)
+                                    div
+                                    include reglament_pieces/add_button
+                              else
+                                tr(teacher=teacherId, reglament=reglamentId, day=dayIndex, order=lessonIndex, numerator=0, status='vacant').half-height.numerator.vacant.activity
+                                  td.lesson-index(rowspan=2)= (lessonIndex + 1)
+                                  td.lesson-time= (timeOrders[lessonIndex])
+                                  td(teacher=teacherId, colspan=2)
+                                    div
+                                    include reglament_pieces/add_button
+                                tr(teacher=teacherId, reglament=reglamentId, discipline=l.discipline, groups=l.groups, numerator=1, order=l.order, timestart=l.timeStart, timeend=l.timeEnd, type=l.type, place=l.place, lesson=l.id, time=l.time, day=l.day, status='busy').half-height.activity.denominator
+                                  td.lesson-time(order=lessonIndex, timeStart=l.timeStart, timeEnd=l.timeEnd)=(extendedOrders[lessonIndex][l.timeStart] + ' ' + extendedOrders[lessonIndex][l.timeEnd])
+                                  td.activity-info(discipline=l.discipline, class=(l.isBlocked ? 'blocked' : ''), data-balloon=l.discipline, data-balloon-pos="right", data-balloon-length="fit")
+                                    include reglament_pieces/lesson_info_block
+                                  td
+                                    div(field="place")= l.place
+                                    include reglament_pieces/edit_remove_buttons
+                          else if (lesson.length == 2)
+                            for l in lesson
+                              if (l.numerator == 0)
+                                tr(teacher=teacherId, reglament=reglamentId, discipline=l.discipline, groups=l.groups, numerator=0, order=l.order, timestart=l.timeStart, timeend=l.timeEnd, type=l.type, place=l.place, lesson=l.id, time=l.time, day=l.day, status='busy').half-height.activity.numerator
+                                  td.lesson-index(rowspan=2)= (lessonIndex + 1)
+                                  td.lesson-time= (extendedOrders[lessonIndex][l.timeStart] + ' ' + extendedOrders[lessonIndex][l.timeEnd])
+                                  td.activity-info(class=(l.isBlocked ? 'blocked' : ''), data-balloon=l.discipline, data-balloon-pos="right", data-balloon-length="fit")
+                                    include reglament_pieces/lesson_info_block
+                                  td
+                                    div(field="place")= l.place
+                                    include reglament_pieces/edit_remove_buttons
+                              else
+                                tr(teacher=teacherId, reglament=reglamentId, discipline=l.discipline, groups=l.groups, numerator=1, order=l.order, timestart=l.timeStart, timeend=l.timeEnd, type=l.type, place=l.place, lesson=l.id, time=l.time, day=l.day, status='busy').half-height.activity.denominator
+                                  td.lesson-time= (extendedOrders[lessonIndex][l.timeStart] + ' ' + extendedOrders[lessonIndex][l.timeEnd])
+                                  td.activity-info(class=(l.isBlocked ? 'blocked' : ''), data-balloon=l.discipline, data-balloon-pos="right", data-balloon-length="fit")
+                                    include reglament_pieces/lesson_info_block
+                                  td
+                                    div(class="smaller", field="place")= l.place
+                                    include reglament_pieces/edit_remove_buttons
+                  td(rowspan=2).rate-cell
+                    each day, dayIndex in weekDays
+                      div= (day + ': ' + reglamentInfo.duration[dayIndex])
+                    div= ("Загальний: "  + reglamentInfo.totalDuration)
+                tr(reglament=reglamentId, class=(user.isTeacher(teacherId) || user.isAdmin() ? 'open-lesson open-lesson-cell' : 'open-lesson'))
+                  td(colspan=24, style="border-right: 0; padding: 0;").text-left
+                    div(reglament=reglamentId)
+                      b= "ТЕМА ВІДКРИТОГО ЗАНЯТТЯ: "
+                      span.lesson-topic= reglament.openLesson
+    
+    include ./activity_editor_form.jade
+    //- include ../common/new_teacher_form.jade
+    
+    script(src="/dist/scripts/mainreglament.js")
+    
+    script(type='text/javascript').
+      window.teachersData = !{JSON.stringify(data.map(function(td) { return td.teacher; }))};
+      window.weekDays = !{JSON.stringify(weekDays)};
+
+      console.log(teachersData);
+
+      window.onload = function(){
+        $('.hidden-edit, .hidden-add').on('click', onChangeActivityClickHandler);
+        $('.remove-reglament').on('click', onReglamentRemoveBtnClickHandler);
+        $('#formEdit #type').on('change', onTypeChange);
+        fillList(document.getElementById('type'), jobTypes);
+
+        $('.open-lesson-cell').on('click', onOpenTopicClick);
+
+        //- var groupCode = document.getElementById('group-code');
+        //- groupCode.onkeypress = onGroupCodeKeypressHandler;
+        //- groupCode.onkeydown = onGroupCodeKeydownHandler;
+        //- groupCode.onkeyup = onGroupCodeKeyupHandler;
+        //- window.extendedOrders = !{JSON.stringify(extendedOrders)};
+      }
+
+      var contentChanged = false,
+        changedFields = [];
+
+      save = function(){
+        $.post("/save", {
+            data: JSON.stringify(changedFields)
+          });
+      };
+
+      function onReglamentRemoveBtnClickHandler(evt) {
+        var reglament = evt.target.parentNode.getAttribute('reglament');
+        if (confirm('Ви дійсно хочете видалити цей регламент?')) {
+          $.ajax('/reglaments', {
+            method: 'DELETE',
+            data: {
+              reglament: reglament
+            },
+            success: function(res) {
+              $(evt.target).parents('tr[type="reglament"]')
+                .next('.open-lesson-cell').remove()
+                .end()
+                .remove();
+                
+            }
+          });
+        }
+      }

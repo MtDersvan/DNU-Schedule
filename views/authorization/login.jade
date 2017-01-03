@@ -1,0 +1,18 @@
+extends ../layouts/layout
+
+block content
+  .container
+    .row
+      .col-lg-6.col-lg-offset-3.text-center
+        h1 ВХІД
+        form(method='POST', action='/auth/login', style='margin-bottom: 10px;')
+          .form-group.text-left
+            label(for='email') Електронна адреса:
+            input.form-control(type='email', id='email', name='email', autocomplete='off', required='required')
+          .form-group.text-left
+            label(for='password') Пароль:
+            input.form-control(type='password', id='password', name='password', autocomplete='off', required='required')
+          input.btn.btn-primary.btn-lg(type='submit', value='Увійти')
+        p Якщо ви ще не зареєстровані у системі, то 
+          a(href='/auth/register') зареєструйтеся
+          | .

@@ -1,0 +1,583 @@
+$link-color: #333;
+body {
+    padding-top: 50px;
+}
+
+.teacher-table,
+.new-reg-table {
+    margin: 0 auto 25px;
+    thead {
+        tr {
+            background-color: #e0e0e0;
+            td {
+                font-weight: bold;
+                text-align: center;
+                font-size: 14pt;
+            }
+        }
+    }
+    td {
+        border: 1px solid #C6C6C6;
+        padding: 5px 10px;
+        &.control-cell {
+            i:first-child {
+                margin-right: 5px;
+            }
+        }
+        &.admin-cell {
+            width: 75px;
+            padding: 0;
+            input[type='checkbox'] {
+                width: 50px;
+            }
+        }
+    }
+}
+
+.teacher-table {
+    width: 100%;
+    tr.current-user {
+        background-color: #C2FFC2;
+    }
+}
+
+.new-reg-table {
+    width: 90%;
+    .week-day,
+    .day-info td {
+        background-color: #e0e0e0;
+        font-weight: bold;
+    }
+    .week-day {
+        text-transform: uppercase;
+    }
+    td {
+        vertical-align: middle;
+        text-align: center;
+        position: relative;
+        .form-control {
+            display: inline-block;
+        }
+        &.activity-index {
+            width: 5%;
+        }
+        &.activity-time {
+            width: 15%;
+        }
+        &.numerator {
+            width: 5%;
+        }
+        &.activity-type {
+            width: 10%;
+        }
+        &.discipline {
+            width: 30%;
+        }
+        &.place {
+            text-align: center;
+            input {
+                width: 50%;
+            }
+            .icon-remove {
+                display: none;
+                top: 2px;
+                right: 2px;
+            }
+        }
+        select[name^="type"] {
+            width: 80%;
+        }
+        select[name^="numerator"] {
+            width: 80%;
+            padding: 3px;
+            left: 10%;
+        }
+    }
+    tr[data-status='vacant'] {
+        td {
+            vertical-align: middle;
+        }
+    }
+    tr {
+        &:hover {
+            .icon-remove {
+                display: inline;
+            }
+        }
+        &.groups-error {
+            background-color: #FFEDED;
+        }
+    }
+}
+
+.new-reg-table td,
+.modal-content .modal-body #groups {
+    &.groups {
+        width: 20%;
+        ul {
+            list-style-type: none;
+            padding: 0;
+            li {
+                margin-top: 5px;
+                position: relative;
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+        }
+        .gc {
+            width: 15%;
+        }
+        [name^='group'] {
+            width: 45%;
+            display: inline-block;
+        }
+        .icon {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            font-size: 10px;
+            line-height: 15px;
+            background-color: #000;
+            color: #fff;
+            border-radius: 100%;
+            text-align: center;
+            position: static;
+            cursor: pointer;
+            position: absolute;
+            top: 25%;
+            &.left {
+                left: 0;
+            }
+            &.right {
+                right: 0;
+            }
+        }
+    }
+}
+
+.modal-content .modal-body #groups {
+    &.groups {
+        width: 75%;
+
+        ul li {
+            padding-left: 10%;
+        }
+    }
+}
+
+nav {
+    .dropdown {
+        margin-top: 10px;
+        .dropdown-menu {
+            overflow-y: auto;
+            max-height: 250px;
+        }
+    }
+    .dd {
+        margin-right: 10px;
+    }
+}
+
+.smaller {
+    font-size: 1em;
+}
+
+.modal-content h4 .time-container {
+    display: inline-block;
+}
+
+.new-reg-table td select.lesson-time-list,
+.modal-content .modal-body h5 .lesson-time-list {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 15px !important;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.modal-content .modal-body h5 .lesson-time-list.lesson-start-time {
+    margin-right: 10px;
+}
+
+#lessonModal .modal-content .modal-body .form-group {
+    input {
+        margin-top: 0;
+    }
+}
+
+form .form-group > input.form-control {
+    padding-left: 10px !important;
+}
+
+[name="semester"] {
+    width: 3%;
+}
+
+[name="year"] {
+    width: 5%;
+}
+
+[name="semester"],
+[name="year"],
+[name="teacher"] {
+    text-align: center;
+    display: inline-block;
+    max-height: 20px;
+}
+
+.icon-remove {
+    cursor: pointer;
+}
+
+span.icon-remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+section.new-reglament {
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.rate {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.full-reglament {
+    // width: 1900px;
+    header {
+        text-align: center;
+    }
+}
+
+select.teachers-names {
+    width: 250px;
+    margin: 0 auto;
+    display: inline;
+}
+
+.new .activity-type div {
+    padding: 15px 0 15px 0;
+}
+
+[data-status='vacant'] .activity-type:hover {
+    background-color: #ECECEC;
+    cursor: pointer;
+}
+
+.create-btn {
+    width: 10%;
+}
+
+.inline-block {
+    display: inline;
+    float: left;
+    margin-right: 25px;
+}
+
+.ind-task {
+    input {
+        width: 70%;
+    }
+    margin-bottom: 25px;
+}
+
+tr a {
+    text-decoration: none;
+    color: $link-color;
+    &:visited {
+        color: $link-color;
+    }
+    &:hover {
+        font-weight: bold;
+        text-decoration: none;
+        color: $link-color;
+        cursor: pointer;
+    }
+}
+
+input.group-code,
+.form-group input.group-code {
+    padding-left: 5px;
+    width: 25px;
+    outline: none;
+}
+
+select[name^="group"] {
+    width: 80px;
+    margin: 0 5px;
+}
+
+input[name^="discipline"] {
+    display: inline-block;
+    width: 90%;
+}
+
+.form-group select[name^="group"] {
+    width: 475px;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.form-group input.group-code {
+    display: inline-block;
+}
+
+.new-reg-table tr[data-status='busy'] {
+    .activity-type,
+    .place,
+    .activity-time,
+    .discipline,
+    .groups,
+    .numerator {
+        background-color: #E8E8E8;
+        outline: 1px solid #BABABA;
+        color: #5D5D5D;
+    }
+}
+
+.selected-semester {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+span.bold {
+    font-size: 1.5em;
+}
+
+.edit-teacher,
+.remove-teacher {
+    cursor: pointer;
+}
+
+.modal-content {
+    .modal-body {
+        input,
+        select {
+            width: 95%;
+        }
+        .modal-title {
+            margin-top: 0;
+        }
+    }
+}
+
+.group-table {
+    width: 200px;
+    margin: 0 auto 25px;
+    tr {
+        td {
+            padding: 5px;
+            .btn {
+                width: 90%;
+            }
+        }
+    }
+    thead {
+        tr {
+            background-color: #DBDBDB;
+            color: #626262;
+            font-size: 1.5em;
+            td {
+                #newgroup-input {
+                    height: 20px;
+                    width: 300px;
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                #name-edit {
+                    height: 20px;
+                    width: 200px;
+                }
+            }
+            td.index {
+                width: 50px;
+            }
+        }
+        tr:nth-child(even) {
+            background-color: #EFEFEF;
+        }
+    }
+}
+
+input,
+select {
+    height: 25px !important;
+}
+
+// styling group autocomplete list
+#group-list-box {
+    position: relative;
+    display: inline-block;
+    z-index: 9999;
+    ul {
+        position: absolute;
+        display: inline;
+        background-color: #fff;
+        text-align: left;
+        left: 0;
+        padding: 5px;
+        list-style-type: none;
+        border: 1px solid #000;
+        box-shadow: 2px 2px 0 #4B4B4B, 4px 4px 2px #4B4B4B;
+    }
+}
+
+.teacher-info {
+    position: relative;
+    .remove-reglament {
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        font-size: 1.5em;
+        visibility: hidden;
+    }
+    &:hover {
+        .remove-reglament {
+            visibility: visible;
+        }
+    }
+}
+
+tr[data-status='busy'] .smaller {
+    font-size: .9em;
+}
+
+span.lesson-info {
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.discipline-info-box {
+    position: absolute;
+    padding: 10px;
+    border: 1px solid #000;
+    background-color: #fff;
+    min-width: 100px;
+    text-align: center;
+    box-shadow: 1px 1px 10px #000;
+    border-radius: 3px;
+}
+
+td.blocked,
+td.blocked + td {
+    background-color: rgba(233, 233, 233, .3);
+    color: rgba(130, 130, 130, .6);
+}
+
+.open-lesson div {
+    padding: 5px 0;
+}
+
+.open-lesson-cell div {
+    .topic-value,
+    b {
+        display: inline-block;
+    }
+    b {
+        width: 9%;
+    }
+    .topic-value {
+        width: 90%;
+    }
+}
+
+.success li,
+.error li,
+.info li {
+    list-style-type: none;
+    padding: 10px 20px 10px 20px;
+    margin: 10px 0 10px 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.success li {
+    background-color: #D9FFD1;
+    border-color: #90F088;
+}
+
+.error li {
+    background-color: #FFCCCC;
+    border-color: #EB9090;
+}
+
+input[name='isTeacher'] {
+    width: auto;
+    margin: -2px;
+}
+
+.form-group {
+    .req {
+        color: #C40000;
+    }
+}
+
+footer {
+    margin-top: 20px;
+}
+
+#lessonModal {
+    .modal-body {}
+}
+
+.modal-body {
+    input {
+        width: 100%;
+    }
+    .error {
+        padding: 0;
+        li {
+            margin-top: 0;
+            margin-left: 0;
+        }
+    }
+}
+
+.total-reg-table {
+    tr {
+        td {
+            .lesson-type {
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+        }
+        .groups {
+            overflow-y: auto;
+            ul {
+                list-style-type: none;
+                padding: 0;
+                font-size: 95%;
+            }
+        }
+        &.max-height {
+            .groups {
+                max-height: 100px;
+            }
+        }
+        &.half-height {
+            .groups {
+                max-height: 35px;
+            }
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}

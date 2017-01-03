@@ -1,0 +1,73 @@
+#editTeacher.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(arial-hidden='true') &times;
+        h3.modal-title Редагувати інформація про викладача
+      .modal-body
+        form(action="/teachers/edit", method="PUT", id="formEditTeacher")
+          .form-group    
+            label(for='exampleInputTeacher') Прiзвище
+            input(name="lastName", form="formEditTeacher", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') Iм'я
+            input(name="firstName", form="formEditTeacher", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') По-батьковi
+            input(name="fathersName", form="formEditTeacher", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') Посада
+            input(name="position", form="formEditTeacher", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') Телефон
+            input(name="telephone", form="formEditTeacher", class="form-control", style="padding:0")
+          button.btn.btn-primary(type='submit', form='formEditTeacher') Зберегти
+
+  script.
+    var modal = $('#editTeacher'),
+        ln = modal.find('[name="lastName"]'),
+        fin = modal.find('[name="firstName"]'),
+        fan = modal.find('[name="fathersName"]'),
+        pos = modal.find('[name="position"]'),
+        tel = modal.find('[name="telephone"]'),
+        teacherId;
+    $('.edit-teacher').on('click', openUpdateModal);
+    $('#formEditTeacher').on('submit', updateTeacher);
+
+    function openUpdateModal(evt) {
+      var row = $(evt.target).parents('tr'), 
+          fullName = row.find('.name').text().split(' '),
+          position = row.find('.position').text(),
+          phone = row.find('.telephone').text();
+          lastName = fullName[0],
+          firstName = fullName[1],
+          fathersName = fullName.slice(2).join(' ');
+      
+      teacherId = row.data('teacher');
+
+      ln.val(lastName);
+      fin.val(firstName);
+      fan.val(fathersName);
+      pos.val(position);
+      tel.val(phone);
+      
+      modal.modal()[0];
+    }
+
+    function updateTeacher(evt) {
+      evt.preventDefault();
+      $.ajax('/teachers/edit', {
+          method: 'PUT'
+          , data: {
+            teacher: teacherId,
+            firstName: fin.val(),
+            lastName: ln.val(),
+            fathersName: fan.val(),
+            position: pos.val(),
+            telephone: tel.val()
+          }
+        }).done(function(data) {
+          location.reload();
+        });
+    }

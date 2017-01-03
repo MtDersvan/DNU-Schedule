@@ -1,0 +1,418 @@
+body {
+  padding-top: 50px; }
+
+.teacher-table,
+.new-reg-table {
+  margin: 0 auto 25px; }
+  .teacher-table thead tr,
+  .new-reg-table thead tr {
+    background-color: #e0e0e0; }
+    .teacher-table thead tr td,
+    .new-reg-table thead tr td {
+      font-weight: bold;
+      text-align: center;
+      font-size: 14pt; }
+  .teacher-table td,
+  .new-reg-table td {
+    border: 1px solid #C6C6C6;
+    padding: 5px 10px; }
+    .teacher-table td.control-cell i:first-child,
+    .new-reg-table td.control-cell i:first-child {
+      margin-right: 5px; }
+    .teacher-table td.admin-cell,
+    .new-reg-table td.admin-cell {
+      width: 75px;
+      padding: 0; }
+      .teacher-table td.admin-cell input[type='checkbox'],
+      .new-reg-table td.admin-cell input[type='checkbox'] {
+        width: 50px; }
+
+.teacher-table {
+  width: 100%; }
+  .teacher-table tr.current-user {
+    background-color: #C2FFC2; }
+
+.new-reg-table {
+  width: 90%; }
+  .new-reg-table .week-day,
+  .new-reg-table .day-info td {
+    background-color: #e0e0e0;
+    font-weight: bold; }
+  .new-reg-table .week-day {
+    text-transform: uppercase; }
+  .new-reg-table td {
+    vertical-align: middle;
+    text-align: center;
+    position: relative; }
+    .new-reg-table td .form-control {
+      display: inline-block; }
+    .new-reg-table td.activity-index {
+      width: 5%; }
+    .new-reg-table td.activity-time {
+      width: 15%; }
+    .new-reg-table td.numerator {
+      width: 5%; }
+    .new-reg-table td.activity-type {
+      width: 10%; }
+    .new-reg-table td.discipline {
+      width: 30%; }
+    .new-reg-table td.place {
+      text-align: center; }
+      .new-reg-table td.place input {
+        width: 50%; }
+      .new-reg-table td.place .icon-remove {
+        display: none;
+        top: 2px;
+        right: 2px; }
+    .new-reg-table td select[name^="type"] {
+      width: 80%; }
+    .new-reg-table td select[name^="numerator"] {
+      width: 80%;
+      padding: 3px;
+      left: 10%; }
+  .new-reg-table tr[data-status='vacant'] td {
+    vertical-align: middle; }
+  .new-reg-table tr:hover .icon-remove {
+    display: inline; }
+  .new-reg-table tr.groups-error {
+    background-color: #FFEDED; }
+
+.new-reg-table td.groups,
+.modal-content .modal-body #groups.groups {
+  width: 20%; }
+  .new-reg-table td.groups ul,
+  .modal-content .modal-body #groups.groups ul {
+    list-style-type: none;
+    padding: 0; }
+    .new-reg-table td.groups ul li,
+    .modal-content .modal-body #groups.groups ul li {
+      margin-top: 5px;
+      position: relative; }
+      .new-reg-table td.groups ul li:first-child,
+      .modal-content .modal-body #groups.groups ul li:first-child {
+        margin-top: 0; }
+  .new-reg-table td.groups .gc,
+  .modal-content .modal-body #groups.groups .gc {
+    width: 15%; }
+  .new-reg-table td.groups [name^='group'],
+  .modal-content .modal-body #groups.groups [name^='group'] {
+    width: 45%;
+    display: inline-block; }
+  .new-reg-table td.groups .icon,
+  .modal-content .modal-body #groups.groups .icon {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    font-size: 10px;
+    line-height: 15px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 100%;
+    text-align: center;
+    position: static;
+    cursor: pointer;
+    position: absolute;
+    top: 25%; }
+    .new-reg-table td.groups .icon.left,
+    .modal-content .modal-body #groups.groups .icon.left {
+      left: 0; }
+    .new-reg-table td.groups .icon.right,
+    .modal-content .modal-body #groups.groups .icon.right {
+      right: 0; }
+
+.modal-content .modal-body #groups.groups {
+  width: 75%; }
+  .modal-content .modal-body #groups.groups ul li {
+    padding-left: 10%; }
+
+nav .dropdown {
+  margin-top: 10px; }
+  nav .dropdown .dropdown-menu {
+    overflow-y: auto;
+    max-height: 250px; }
+nav .dd {
+  margin-right: 10px; }
+
+.smaller {
+  font-size: 1em; }
+
+.modal-content h4 .time-container {
+  display: inline-block; }
+
+.new-reg-table td select.lesson-time-list,
+.modal-content .modal-body h5 .lesson-time-list {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 15px !important;
+  margin: 0 auto;
+  display: inline-block; }
+
+.modal-content .modal-body h5 .lesson-time-list.lesson-start-time {
+  margin-right: 10px; }
+
+#lessonModal .modal-content .modal-body .form-group input {
+  margin-top: 0; }
+
+form .form-group > input.form-control {
+  padding-left: 10px !important; }
+
+[name="semester"] {
+  width: 3%; }
+
+[name="year"] {
+  width: 5%; }
+
+[name="semester"],
+[name="year"],
+[name="teacher"] {
+  text-align: center;
+  display: inline-block;
+  max-height: 20px; }
+
+.icon-remove {
+  cursor: pointer; }
+
+span.icon-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px; }
+
+section.new-reglament {
+  width: 100%;
+  margin-bottom: 50px; }
+
+.rate {
+  font-weight: bold;
+  text-decoration: underline; }
+
+.full-reglament header {
+  text-align: center; }
+
+select.teachers-names {
+  width: 250px;
+  margin: 0 auto;
+  display: inline; }
+
+.new .activity-type div {
+  padding: 15px 0 15px 0; }
+
+[data-status='vacant'] .activity-type:hover {
+  background-color: #ECECEC;
+  cursor: pointer; }
+
+.create-btn {
+  width: 10%; }
+
+.inline-block {
+  display: inline;
+  float: left;
+  margin-right: 25px; }
+
+.ind-task {
+  margin-bottom: 25px; }
+  .ind-task input {
+    width: 70%; }
+
+tr a {
+  text-decoration: none;
+  color: #333; }
+  tr a:visited {
+    color: #333; }
+  tr a:hover {
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer; }
+
+input.group-code,
+.form-group input.group-code {
+  padding-left: 5px;
+  width: 25px;
+  outline: none; }
+
+select[name^="group"] {
+  width: 80px;
+  margin: 0 5px; }
+
+input[name^="discipline"] {
+  display: inline-block;
+  width: 90%; }
+
+.form-group select[name^="group"] {
+  width: 475px;
+  margin-left: 5px;
+  display: inline-block; }
+
+.form-group input.group-code {
+  display: inline-block; }
+
+.new-reg-table tr[data-status='busy'] .activity-type,
+.new-reg-table tr[data-status='busy'] .place,
+.new-reg-table tr[data-status='busy'] .activity-time,
+.new-reg-table tr[data-status='busy'] .discipline,
+.new-reg-table tr[data-status='busy'] .groups,
+.new-reg-table tr[data-status='busy'] .numerator {
+  background-color: #E8E8E8;
+  outline: 1px solid #BABABA;
+  color: #5D5D5D; }
+
+.selected-semester {
+  font-weight: bold;
+  text-decoration: underline; }
+
+.bold {
+  font-weight: bold; }
+
+span.bold {
+  font-size: 1.5em; }
+
+.edit-teacher,
+.remove-teacher {
+  cursor: pointer; }
+
+.modal-content .modal-body input,
+.modal-content .modal-body select {
+  width: 95%; }
+.modal-content .modal-body .modal-title {
+  margin-top: 0; }
+
+.group-table {
+  width: 200px;
+  margin: 0 auto 25px; }
+  .group-table tr td {
+    padding: 5px; }
+    .group-table tr td .btn {
+      width: 90%; }
+  .group-table thead tr {
+    background-color: #DBDBDB;
+    color: #626262;
+    font-size: 1.5em; }
+    .group-table thead tr td #newgroup-input {
+      height: 20px;
+      width: 300px; }
+  .group-table tbody tr td #name-edit {
+    height: 20px;
+    width: 200px; }
+  .group-table tbody tr td.index {
+    width: 50px; }
+  .group-table tbody tr:nth-child(even) {
+    background-color: #EFEFEF; }
+
+input,
+select {
+  height: 25px !important; }
+
+#group-list-box {
+  position: relative;
+  display: inline-block;
+  z-index: 9999; }
+  #group-list-box ul {
+    position: absolute;
+    display: inline;
+    background-color: #fff;
+    text-align: left;
+    left: 0;
+    padding: 5px;
+    list-style-type: none;
+    border: 1px solid #000;
+    box-shadow: 2px 2px 0 #4B4B4B, 4px 4px 2px #4B4B4B; }
+
+.teacher-info {
+  position: relative; }
+  .teacher-info .remove-reglament {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    font-size: 1.5em;
+    visibility: hidden; }
+  .teacher-info:hover .remove-reglament {
+    visibility: visible; }
+
+tr[data-status='busy'] .smaller {
+  font-size: .9em; }
+
+span.lesson-info {
+  font-size: 12pt;
+  font-weight: bold;
+  text-transform: uppercase; }
+
+.discipline-info-box {
+  position: absolute;
+  padding: 10px;
+  border: 1px solid #000;
+  background-color: #fff;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: 1px 1px 10px #000;
+  border-radius: 3px; }
+
+td.blocked,
+td.blocked + td {
+  background-color: rgba(233, 233, 233, 0.3);
+  color: rgba(130, 130, 130, 0.6); }
+
+.open-lesson div {
+  padding: 5px 0; }
+
+.open-lesson-cell div .topic-value,
+.open-lesson-cell div b {
+  display: inline-block; }
+.open-lesson-cell div b {
+  width: 9%; }
+.open-lesson-cell div .topic-value {
+  width: 90%; }
+
+.success li,
+.error li,
+.info li {
+  list-style-type: none;
+  padding: 10px 20px 10px 20px;
+  margin: 10px 0 10px 0;
+  border: 1px solid transparent;
+  border-radius: 5px; }
+
+.success li {
+  background-color: #D9FFD1;
+  border-color: #90F088; }
+
+.error li {
+  background-color: #FFCCCC;
+  border-color: #EB9090; }
+
+input[name='isTeacher'] {
+  width: auto;
+  margin: -2px; }
+
+.form-group .req {
+  color: #C40000; }
+
+footer {
+  margin-top: 20px; }
+
+.modal-body input {
+  width: 100%; }
+.modal-body .error {
+  padding: 0; }
+  .modal-body .error li {
+    margin-top: 0;
+    margin-left: 0; }
+
+.total-reg-table tr td .lesson-type {
+  text-transform: uppercase;
+  font-weight: bold; }
+.total-reg-table tr .groups {
+  overflow-y: auto; }
+  .total-reg-table tr .groups ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 95%; }
+.total-reg-table tr.max-height .groups {
+  max-height: 100px; }
+.total-reg-table tr.half-height .groups {
+  max-height: 35px; }
+
+.hidden {
+  display: none; }

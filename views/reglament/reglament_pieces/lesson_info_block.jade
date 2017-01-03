@@ -1,0 +1,7 @@
+div.lesson-type= jobTypes[l.type]
+div.groups
+  -var groups = l.groups
+    if (groups && groups.length)
+      ul
+        -for (var i = 0, len = groups.length; i < len; i++)
+          li= groups[i]

@@ -1,0 +1,43 @@
+extends ../layouts/layout.jade
+
+block content
+  header.center
+    h1 Загальна таблиця викладачів
+  .container
+    .row
+      .col-lg-12
+        table.teacher-table
+          thead
+            tr
+              td №
+              td Прізвище, ім’я, по-батькові
+              td Посада
+              td Телефон
+              if (user.isAdmin())
+                td Адмін.
+                td Логін
+                td Пароль
+              td
+          tbody
+            for t, index in teachers
+              tr.teacher(data-teacher=t._id.toString(), class=(t.isUser(user) ? 'current-user' : ''))
+                td.text-center= (index + 1)
+                td.name= t.getFullName()
+                td.position= t.position
+                td.telephone= t.telephone
+                if (user.isAdmin())
+                  -var currentUser = users[index]
+                  td.admin-cell.text-center
+                    input(type='checkbox', checked=currentUser.isAdmin(), disabled=t.isUser(user), name='isAdmin')
+                  td.username(data-user=currentUser._id.toString())= currentUser.username
+                  td.text-center
+                    input.btn.btn-primary.btn-sm(type='button', value='Змінити пароль', name='resetpassword')
+                td.text-center.control-cell
+                  if (t.isUser(user) || user.isAdmin())
+                    i.icon-edit.edit-teacher(title="Редагувати данні")
+                  if (user.role === 1)
+                    i.icon-remove.remove-teacher(title="Видалити викладача")
+  include update_teacher_form.jade
+  include reset_password_modal.jade
+  script(src='/dist/scripts/teachers.js')
+    

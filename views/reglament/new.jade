@@ -1,0 +1,95 @@
+extends ../layouts/layout.jade
+
+block content
+
+  section(class="new-reglament")
+    form(action="/reglaments/new", method="POST", id="newReglamentForm", autocomplete="off")
+      header(class="center container-fluid")
+        h1 Регламент
+        h4 роботи на 
+          select.form-control(name="semester", id="semester" form="newReglamentForm")
+            option(value=1)= 1
+            option(value=2)= 2 
+          |  семестр 
+          select.form-control(name="year" form="newReglamentForm" id="year")
+            -for (var i = currentYear; i > startYear - 1; i--)
+              option(value=i)= i
+          | /
+          span(id="nextYear")
+          |  н. р. кафедри комп’ютерних технологій факультету прикладної математики
+        h4
+          if (user.isAdmin())
+            if (teachers.length)
+            select#teacherbox(class="form-control teachers-names")
+              for teacher in teachers
+                option.text-left(value=teacher._id)= teacher.getFullName()
+              - teacher = teachers[0]
+          else if (user.role === 0)
+            - teacher = user.teacherInfo
+            span#teacherbox= teacher.getFullName()
+          |  на 
+          span#new-rate.rate= "0.00"
+          |  ставки 
+          span(id="position")= (' ' + teacher.position + 'a ')
+          input(type='hidden', name='teacher', form='newReglamentForm', value=(teacher._id.toString()))
+          input#numberOfLessons(type='hidden', name='numberOfLessons', form='newReglamentForm', value=0)
+      section(class="container-fluid")
+        table(class="new-reg-table")
+          for day, dayIndex in weekDays
+            tr.week-day.center
+              td(colspan=7)= day
+            tr.day-info.center
+              td.activity-index(rowspan=2) №
+              td.activity-time(rowspan=2) Час
+              td.numerator(rowspan=2) Част.
+              td(colspan=3) Вид роботи
+              td.place(rowspan=2) Місце роботи
+            tr.day-info
+              td.type Тип
+              td.groups Групи
+              td.discipline Дисципліна
+            each time, orderIndex in timeOrders
+              -var lessons = daysActivity[dayIndex][orderIndex].lessons
+              -var len = lessons.length
+              if (len == 0)
+                include new_reg_pieces/weekly_vacant.jade
+              else if (len == 1)
+                -var lesson = lessons[0]
+                -var numerator = lesson.numerator
+                if (lesson && numerator == -1)
+                  include new_reg_pieces/weekly_busy.jade
+                else if (lesson && numerator == 0)
+                  include new_reg_pieces/numerator_busy.jade
+                  include new_reg_pieces/denominator_vacant.jade
+                else if (lesson && numerator == 1)
+                  include new_reg_pieces/numerator_vacant.jade
+                  include new_reg_pieces/denominator_busy.jade
+              else if (len == 2)
+                -for (var i = 0; i < len; i++)
+                  -var lesson = lessons[i]
+                  -var numerator = lesson.numerator
+                  if (lesson && numerator == 0)
+                    include new_reg_pieces/numerator_busy.jade
+                  else if (lesson && numerator == 1)
+                    include new_reg_pieces/denominator_busy.jade
+        div.col-lg-10.col-lg-offset-1.ind-task
+          h4.inline-block= "Тема відкритого заняття:"
+          input(type="text", class="form-control", name="openlesson")
+        div.col-lg-10.text-center.col-lg-offset-1
+          if (teachers.length == 0)
+            button.btn.btn-primary.create-btn(type="submit", disabled) Створити
+          else
+            button.btn.btn-primary.create-btn(type="submit") Створити
+        
+      script.
+        var table = document.querySelector('.new-reg-table');
+
+        window.onload = function(evt) {
+          window.extendedOrders = !{JSON.stringify(extendedOrders)};
+          window.positions = !{JSON.stringify(positions)};
+          window.weekDays = !{JSON.stringify(weekDays)};
+          window.timeOrders = !{JSON.stringify(timeOrders)};
+        }
+      script(src='/dist/scripts/reglmanetdynamicchanging.js')
+      script(src='/dist/scripts/newreglament.js')
+      script(src='/dist/scripts/groupsListCreator.js')

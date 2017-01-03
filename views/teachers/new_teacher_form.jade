@@ -1,0 +1,25 @@
+div.modal.fade.bs-example-modal-lg(tabindex=-1, id='createTeacher', role='dialog', aria-labelledby='myLargeModalLabel')
+  div.modal-dialog.modal-lg
+    div.modal-content(style="padding: 20px;")
+      .modal-header
+        button.close(type="button", data-dismiss="modal", arial-label='Close')
+            span(arial-hidden='true') &times;
+        h3.modal-title Створити Викладача
+      .modal-body
+        form(action="/teachers/new", method="POST", id="formTeacherCreate")
+          .form-group    
+            label(for='exampleInputTeacher') Прiзвище
+            input(name="lastName", form="formTeacherCreate", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') Iм'я
+            input(name="firstName", form="formTeacherCreate", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') По-батьковi
+            input(name="fathersName", form="formTeacherCreate", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') Посада
+            input(name="position", form="formTeacherCreate", class="form-control", style="padding:0")
+          .form-group
+            label(for='exampleInputTeacher') Телефон
+            input(name="telephone", form="formTeacherCreate", class="form-control", style="padding:0")
+          button.btn.btn-primary(type='submit') Зберегти

@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/vendors/styles/bootstrap.min.css')
+    link(rel='stylesheet', href='/vendors/styles/tables.css')
+    link(rel='stylesheet', href='/vendors/styles/font-awesome.min.css')
+    link(rel="stylesheet", href='/dist/styles/reglament.css')
+
+    script(src='/vendors/jquery/jquery.js')
+    script(src='/vendors/scripts/bootstrap.min.js')
+    script(src='/vendors/scripts/bootstrap-select.min.js')
+    script(src='/dist/scripts/main.js')
+    script(src='/dist/scripts/ongroupautocomplete.js')
+
+    block neck
+  body
+    header
+      nav.nav.navbar-default.navbar-fixed-top
+        .container-fluid
+          #navbar.collapse.navbar-collapse
+            if (user)
+              ul.nav.navbar-nav
+                li.dd
+                  div.dropdown
+                      button.btn.btn-primary.dropdown-toggle(type="button", data-toggle="dropdown") Загальний регламент 
+                        span.caret
+                      ul.dropdown-menu
+                        -for (var i = currentYear; i >= startYear; i--) {
+                          li
+                            a(href="/reglaments/" + i + "/1")= i
+                        -}
+                block addnav
+                li(class=(title === 'Новий регламент' ? 'active' : ''))
+                  a(href="/reglaments/new") Створити регламент
+                li(class=(title === 'Групи' ? 'active' : ''))
+                  a(href="/groups") Групи
+                li(class=(title === 'Викладачі' ? 'active' : ''))
+                  a(href="/teachers") Викладачі
+              ul.nav.navbar-nav.navbar-right
+                li
+                  a= user.firstname + ' ' + user.lastname
+                li
+                  a(href='/logout') Вихід
+            else
+              ul.nav.navbar-nav
+                li(class=(title === 'Вхід' ? 'active' : ''))
+                  a(href='/auth/login') Увійти
+                li(class=(title === 'Реєстрація' ? 'active' : ''))
+                  a(href='/auth/register') Зареєструватися
+      .container
+        -if(messages)
+          != messages()
+    block content
+
+    footer

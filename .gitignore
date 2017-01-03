@@ -1,0 +1,8 @@
+node_modules/*
+todo.txt
+.nodemonignore
+public/files/**
+public/vendor/**/*.less
+public/layouts/**
+public/views/**
+_data/**

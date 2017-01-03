@@ -1,0 +1,226 @@
+include ../layouts/layout.jade
+
+block title
+  title= "Групи"
+
+block content
+  header.text-center
+    h1= "Список груп"
+
+  table.text-center.group-table
+    thead
+      tr
+        td(colspan=3) Пошук групи за кодом
+      tr
+        td(colspan=3)
+          input(name="group", type="search", class="form-control", id="newgroup-input", autocomplete="off", placeholder='Введіть код групи')
+      tr
+        td(colspan=3)
+          button.btn.btn-primary.btn-lg(data-toggle='modal', data-target='#new-group-modal') Створити групу
+      tr
+        td= "№"
+        td(colspan=2)= "Група"
+    tbody(id="body-table")
+      each group, index in groups
+        tr(group=group._id.toString())
+          td.index(index=index)= (index + 1)
+          td.group-name.text-left= group.name
+          td
+            i.icon-remove
+  include ./newgroup_modal.jade
+  script(src="/dist/scripts/groupsListCreator.js")
+  script.
+    var prevName = '';
+    window.onload = function(evt) {
+      var newgroupInput = document.getElementById('newgroup-input');
+      newgroupInput.onkeypress = onGroupCodeKeypressHandler;
+      newgroupInput.onkeyup = onNewGroupKeyupHandler;
+
+      newgroupInput.addEventListener('keydown', onGroupCodeKeydownHandler);
+      document.getElementById('createGroupBtn').addEventListener('click', onCreateGroupBtnClickHandler, false);
+
+      $('.group-name').on('click', createEditRow);
+      $('.icon-remove').on('click', onRemoveGroup);
+    }
+
+    function onNewGroupKeyupHandler(evt) {
+      var value = evt.target.value;
+        _requestGroupList(value, function(data) {
+            updateGroupTable(data.groups);
+      }); 
+    }
+
+    function updateGroupTable(groups) {
+      var tBody = document.getElementById('body-table'),
+          newRows = [];
+      removeAllNodes(tBody);
+
+      for (var i = 0; i < groups.length; i++) {
+        var group = groups[i],
+            row = document.createElement('tr'),
+            indexCell = document.createElement('td'),
+            groupCell = document.createElement('td'),
+            removeCell = document.createElement('td'),
+            removeIcon = document.createElement('i');
+
+        row.setAttribute('group', group._id.toString());
+
+        indexCell.classList.add('index');
+        indexCell.setAttribute('index', i);
+        indexCell.textContent = (i + 1);
+
+        groupCell.classList.add('group-name', 'text-left');
+        groupCell.textContent = group.name;
+
+        removeIcon.classList.add('icon-remove');
+        removeIcon.onclick = onRemoveGroup;
+        append(removeIcon, removeCell);
+
+        append([indexCell, groupCell, removeCell], row);
+        append(row, tBody);
+      }
+    }
+
+    function onCreateGroupBtnClickHandler(evt) {
+      var nameBox = document.getElementById('groupname'),
+          group = nameBox.value,
+          tBody = document.getElementById('body-table');
+
+      $.ajax('/groups/new', {
+        method: 'POST',
+        data: {
+          name: group
+        },
+        success: function(res) {
+          nameBox.value = '';
+          if (res.errors) {
+            if (onUniqueCheck(res.errors.name.message)) {
+              alert('Така група вже існує!');
+            } else {
+              alert('Назва групи повинна бути заповнена!');
+            }
+            return;
+          }
+          var newRow = createGroupRow(res);
+          tBody.insertBefore(newRow, tBody.firstChild);
+          updateIndexes();
+        }
+      });
+    }
+
+    function createGroupRow(res) {
+      var newRow = document.createElement('tr'),
+          indexCell = document.createElement('td'),
+          nameCell = document.createElement('td'),
+          removeCell = document.createElement('td'),
+          removeIcon = document.createElement('i');
+      
+      newRow.setAttribute('group', res._id.toString());
+      indexCell.classList.add('index');
+      nameCell.textContent = res.name;
+      nameCell.onclick = createEditRow;
+      nameCell.classList.add('text-left');
+      removeIcon.classList.add('icon-remove');
+      removeIcon.onclick = onRemoveGroup;
+  
+      append(removeIcon, removeCell);
+      append([indexCell, nameCell, removeCell], newRow);
+
+      return newRow;
+    } 
+
+    function createEditRow(evt) {
+      var target = evt.target,
+          nameField = document.createElement('input'),
+          exists = document.getElementById('name-edit');
+      if (!exists) {
+        nameField.name = 'group';
+        nameField.type = 'text';
+        nameField.classList.add('form-control');
+        nameField.id = 'name-edit';
+        nameField.value = target.textContent;
+        nameField.autocomplete = "off";
+        nameField.onblur = onEditBlur;
+        nameField.onkeydown = onEditKeydown;
+        
+        prevName = target.textContent;
+        target.innerHTML = '';
+        append(nameField, target);
+        nameField.focus();
+        nameField.select();
+      }
+    }
+
+    function onEditKeydown(evt) {
+      if (evt.keyCode == 13) {
+        onEditGroup(evt);
+      }
+    }
+
+    function onEditGroup(evt) {
+      var parent = evt.target.parentNode,
+          group = parent.parentNode.getAttribute('group'),
+          groupName = evt.target.value;
+
+      $.ajax('/groups/edit', {
+        method: 'PUT',
+        data: {
+          group: group,
+          name: groupName
+        },
+        success: function(res) {
+        var newName = res.name;
+          if (res.err) {
+            if (onUniqueCheck(res.err.errors.name.message)) {
+              alert('Така група вже існує!');
+            } else {
+              alert('Назва групи повинна бути заповнена!');
+            }
+            return;
+          }
+          parent.removeChild(evt.target);
+          parent.textContent = newName;
+        }
+      });
+    }
+
+    function onEditBlur(evt) {
+      var cell = evt.target.parentNode;
+      cell.removeChild(evt.target);
+      cell.textContent = prevName;
+      prevName = '';
+    }
+
+    function onRemoveGroup(evt) {
+      var $parent = $(evt.target).parents('tr'),
+          group = $parent.attr('group'),
+          name = $parent.find('.group-name').text();
+        if (confirm('Ви дійсно хочете видалити цю групу "' + name + '"?')) {
+          $.ajax('/groups/remove', {
+            method: 'DELETE',
+            data: {
+              group: group
+            },
+            success: function(res) {
+              if (res.err) {
+                return;
+              }
+              $parent.remove();
+              updateIndexes();
+            }
+          });
+        }
+       
+    }
+
+    function updateIndexes() {
+      $('.index').each(function(index, item) {
+        $(item).attr('index', index).text(index + 1);
+      });
+    }
+
+    function onUniqueCheck(message) {
+      if (message.indexOf('unique') >= 0) {
+        return true;
+      }
+    }

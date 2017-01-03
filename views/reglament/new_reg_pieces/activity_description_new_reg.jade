@@ -1,0 +1,12 @@
+if (lesson.discipline && lesson.discipline.length)
+  span.lesson-info
+    != lesson.discipline
+  br
+  != jobTypes[lesson.type]
+else
+  span.lesson-info
+    != jobTypes[lesson.type]
+-var groups = lesson.groups
+if (groups.length)
+  br
+  != groups.join(', ')

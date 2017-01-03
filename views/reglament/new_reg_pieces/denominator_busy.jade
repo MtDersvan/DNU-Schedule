@@ -1,0 +1,6 @@
+tr(data-day=dayIndex, data-order=orderIndex, data-numerator=1, data-status='busy')
+  td.activity-time=(extendedOrders[orderIndex][lesson.timeStart] + ' - ' + extendedOrders[orderIndex][lesson.timeEnd])
+  td.numerator З
+  td.activity-type(colspan=3)
+    include activity_description_new_reg.jade
+  td.place= (lesson.place)

@@ -1,0 +1,12 @@
+#new-group-modal.modal.fade.bs-example-modal-sm(tabindex=-1, role='dialog', aria-labelledby='MySmallModalLabel')
+  .modal-dialog.modal-sm(style='margin-top: 10%;')
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4.modal-title Створити нову групу
+      .modal-body.new-group-modal
+        .form-group
+          label(for='groupname') Назва нової групи:
+          input#groupname(type='text', placeholder='Група')
+        button#createGroupBtn.btn.btn-primary Створити

@@ -1,0 +1,39 @@
+#lessonModal.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+        h4.modal-title
+      .modal-body.new-group-modal
+        form(id="lessonForm", autocomplete="off")
+          h5
+            b= "Викладач: "
+            span#teacherName
+          h5
+            b= "День: "
+            span#day
+          h5
+            b= "Час: "
+            select.form-control.lesson-time-list.lesson-start-time#timestart(name="timeStart", form="lessonForm")
+            select.form-control.lesson-time-list#timeend(name="timeEnd", form="lessonForm")
+          .form-group
+            label
+              b Групи:
+              #groups.groups
+                ul
+          .form-group
+            label(for='discipline') Дисципліна: 
+            input#discipline.form-control(type="text", name="discipline", form="lessonForm", required="required")
+          .form-group
+            label(for='place') Місце: 
+            input#place.form-control(type="text", name="place", form="lessonForm", required="required")
+          .form-group.frequency
+            label Перiодичнiсть:
+            select#numerator.form-control(name='numerator', form="lessonForm")   
+          .form-group
+            label(for='type') Тип: 
+            select#type.form-control(name="type", form="lessonForm", onChange="onTypeChange(event)")
+          button.btn.btn-default(type='submit') Зберегти 
+script(src="/dist/scripts/mainReglamentActivityActions.js")
+script(src='/dist/scripts/groupsListCreator.js')

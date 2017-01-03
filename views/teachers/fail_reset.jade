@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    link(rel="stylesheet", href="/css/custom.css")
+  body
+    .container
+      .row
+        .col-lg-6
+          h3 Під час зміни паролю виникли наступні помилки:
+          ul.error(style='margin-left: 0;')
+            for error in errors
+              li= error.msg
+          | Вас буде повернено на сторінку викладачів за 
+          span#time 5
+
+    script.
+      window.onload = function() {
+        var time = document.getElementById('time');
+        var secs = 4;
+
+        function updateTime() {
+          if (secs !== 0) {
+            time.textContent = secs--;
+            setTimeout(updateTime, 1000);
+          } else {
+            window.location = '/teachers';
+          }
+        }
+
+        setTimeout(updateTime, 1000);
+      }
