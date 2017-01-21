@@ -591,7 +591,8 @@ module.exports.saveAsXLSL = function(req, res) {
 
       fs.stat(filepath, (err, stats) => {
         if (err) {
-          fs.mkdirSync(PATH);
+          //CHANGED. #3 fixed.
+          fs.mkdirSync(filepath);//PATH); //What is PATH?
         }
 
         workbook.save((err) => {
