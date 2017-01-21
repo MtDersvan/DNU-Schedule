@@ -1,9 +1,10 @@
 {
-  "name": "Drywall",
+  "name": "drywall",
   "version": "0.16.1",
   "private": true,
   "scripts": {
-    "start": "export NODE_ENV=dev && grunt"
+    "start": "export NODE_ENV=dev && grunt",
+    "windows": "set NODE_ENV=dev&& grunt"
   },
   "engines": {
     "node": "6.0.0"

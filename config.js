@@ -9,7 +9,7 @@ if (NODE_ENV === 'dev') {
 } else if (NODE_ENV === 'prod') {
   dbURI = 'mongodb://malcolm:123456@ds047682.mlab.com:47682/reglament';
 }
-
+console.log('Info', dbURI, NODE_ENV);
 exports.mongodb = {
   uri: dbURI
 };
