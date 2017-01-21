@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "export NODE_ENV=dev && grunt",
-    "windows": "set NODE_END=dev && grunt"
+    "windows": "set NODE_ENV=dev&& grunt"
   },
   "engines": {
     "node": "6.0.0"

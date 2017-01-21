@@ -34,8 +34,9 @@ app.regSettings = reglamentSettings;
 app.server = http.createServer(app);
 
 //setup mongoose
-let connection = mongoose.createConnection(config.mongodb.uri);
-app.db = connection;
+mongoose.connect(config.mongodb.uri);
+
+app.db = mongoose.connection;
 app.db.on('error', function(err) {
   console.log('Mongoose connection error: ' + err);
 });
@@ -43,7 +44,7 @@ app.db.once('open', function() {
   //and... we have a data store
 });
 
-var models = require('./schema')(connection, mongoose);
+var models = require('./schema')(mongoose.connection, mongoose);//connection, mongoose);
 
 //settings
 app.disable('x-powered-by');
@@ -69,7 +70,7 @@ app.use(session({
   saveUninitialized: true,
   secret: config.cryptoKey,
   store: new mongoStore({
-    url: config.mongodb.uri
+    mongooseConnection: mongoose.connection
   })
 }));
 app.use(flash());
