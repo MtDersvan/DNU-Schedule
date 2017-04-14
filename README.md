@@ -1,2 +1,2 @@
 # Reglament
-# DNU-Schedule
+DNU-Scheduler made for Dnipropetrovsk National University
